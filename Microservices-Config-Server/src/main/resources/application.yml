@@ -9,5 +9,5 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/SouravJune/Hotel-Rating-Microservices
+          uri: https://github.com/SouravJune/Hotel-Rating-Microservices-With-Security
           clone-on-start: true

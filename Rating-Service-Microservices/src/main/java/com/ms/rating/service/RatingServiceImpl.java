@@ -48,10 +48,6 @@ public class RatingServiceImpl implements RatingService {
 	public List<RatingResponse> getAllRatings() {
 		
 		List<Rating> findAllRatings = ratingRepository.findAll();
-		
-		if(findAllRatings.isEmpty()) {
-			throw new ResourceNotFoundException("Database does not contain any rating details");
-		}
 
         return findAllRatings.stream().map(rate -> {
 
@@ -72,10 +68,6 @@ public class RatingServiceImpl implements RatingService {
 		
 		List<Rating> rating = ratingRepository.findByUserId(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found by given user id " + userId));
-
-		if(rating.isEmpty()) {
-			throw new ResourceNotFoundException("Database does not contain any rating details");
-		}
 
         return rating.stream().map(rate -> {
 
