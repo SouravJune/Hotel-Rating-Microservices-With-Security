@@ -1,0 +1,122 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservices?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Sourav#8699
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    show-sql: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-95161145.okta.com/oauth2/default
+      client:
+        registration:
+          user-service-client:
+            provider: okta
+            authorizationGrantType: client_credentials
+            scope:
+              - internal
+            client-id: 0oadblbh95To3qKXP5d7
+            client-secret: 63c0kPtI6TRWTNFM_rHfoIltKIC3oGeaM_2aqd7eWZQBJE6_E6okXxCaF3KV9Alu
+        provider:
+          okta:
+            issuerUri: https://dev-95161145.okta.com/oauth2/default
+    
+  application:
+    name: USER-SERVICE-MS
+
+  config:
+    import: configserver:http://localhost:8088
+
+#  profiles:
+#    active: dev
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ratingHotelServiceBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+
+      allRatingHotelServiceBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+
+  retry:
+    instances:
+      ratingHotelServiceBreaker:
+        maxAttempts: 3
+        waitDuration: 5s
+
+      allRatingHotelServiceBreaker:
+        maxAttempts: 3
+        waitDuration: 5s
+
+  ratelimiter:
+    instances:
+      userServiceLimiter:
+        limitRefreshPeriod: 4s
+        limitForPeriod: 2
+        timeoutDuration: 2s
+
+      allUserServiceLimiter:
+        limitRefreshPeriod: 10s
+        limitForPeriod: 10
+        timeoutDuration: 10s
+
+okta:
+  oauth2:
+    issuer: https://dev-95161145.okta.com/oauth2/default
+    audience: api://default
+
+    #eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    register-with-eureka: true # Indicates whether this instance should register its information with eureka server for discovery by others
+#    fetch-registry: true # Indicates whether this client should fetch eureka registry information from eureka server.
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#    should-unregister-on-shutdown: true
+#
+#management:
+#  endpoint:
+#    shutdown:
+#      enabled: true
+#    health:
+#      show-details: ALWAYS
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+    

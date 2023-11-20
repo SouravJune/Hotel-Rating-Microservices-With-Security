@@ -1,0 +1,75 @@
+server:
+  port: 8084
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: microservices
+      
+  application:
+    name: RATING-SERVICE-MS
+
+  config:
+    import: configserver:http://localhost:8088
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-95161145.okta.com/oauth2/default
+
+okta:
+  oauth2:
+    issuer: https://dev-95161145.okta.com/oauth2/default
+    audience: api://default
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ratingHotelServiceBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+
+  ratelimiter:
+    instances:
+      hotelServiceLimiter:
+        limitRefreshPeriod: 4s
+        limitForPeriod: 2
+        timeoutDuration: 2s
+
+#  profiles:
+#    active: dev
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    register-with-eureka: true # Indicates whether this instance should register its information with eureka server for discovery by others
+#    fetch-registry: true # Indicates whether this client should fetch eureka registry information from eureka server.
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#    should-unregister-on-shutdown: true
+#
+#management:
+#  endpoint:
+#    shutdown:
+#      enabled: true
+#    health:
+#      show-details: ALWAYS
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"

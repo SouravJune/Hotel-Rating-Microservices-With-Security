@@ -1,0 +1,1 @@
+--ALTER SEQUENCE hotel_seq INCREMENT BY 10;
