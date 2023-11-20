@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@CircuitBreaker(name = "allRatingHotelServiceBreaker", fallbackMethod = "allRatingHotelServiceFallback")
 	//@Retry(name = "allRatingHotelServiceBreaker", fallbackMethod = "allRatingHotelServiceFallback")
-	@RateLimiter(name = "allUserServiceLimiter", fallbackMethod = "ratingHotelServiceFallback")
+	@RateLimiter(name = "allUserServiceLimiter", fallbackMethod = "allRatingHotelServiceFallback")
 	public List<UserResponse> getAllUsersWithRatings() {
 
 		List<User> findAllUsers = userRepository.findAll();
