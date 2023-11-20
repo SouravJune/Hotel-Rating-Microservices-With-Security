@@ -24,32 +24,6 @@ okta:
     issuer: https://dev-95161145.okta.com/oauth2/default
     audience: api://default
 
-management:
-  health:
-    circuitbreakers:
-      enabled: true
-
-resilience4j:
-  circuitbreaker:
-    instances:
-      ratingHotelServiceBreaker:
-        registerHealthIndicator: true
-        eventConsumerBufferSize: 10
-        failureRateThreshold: 50
-        minimumNumberOfCalls: 5
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5s
-        permittedNumberOfCallsInHalfOpenState: 3
-        slidingWindowSize: 10
-        slidingWindowType: COUNT_BASED
-
-  ratelimiter:
-    instances:
-      hotelServiceLimiter:
-        limitRefreshPeriod: 4s
-        limitForPeriod: 2
-        timeoutDuration: 2s
-
 #  profiles:
 #    active: dev
 
