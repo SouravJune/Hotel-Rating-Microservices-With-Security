@@ -31,19 +31,16 @@ public class HotelController {
 	}
 	
 	@PostMapping("/save")
-	//@PreAuthorize("hasAuthority('Admin')")
 	public ResponseEntity<Hotel> saveHotel(@RequestBody Hotel hotel) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.saveHotel(hotel));
 	}
 	
 	@GetMapping("/all")
-	//@PreAuthorize("hasAuthority('SCOPE_internal') && hasAuthority('Admin')")
 	public ResponseEntity<List<HotelResponse>> getAllHotels() {
 		return ResponseEntity.ok().body(hotelService.getAllHotels());
 	}
 
 	@GetMapping("/gethotel")
-	//@PreAuthorize("hasAuthority('SCOPE_internal')")
 	public ResponseEntity<HotelResponse> getHotelById(@RequestParam String hotelId) {
 		return ResponseEntity.ok().body(hotelService.getHotel(hotelId));
 	}

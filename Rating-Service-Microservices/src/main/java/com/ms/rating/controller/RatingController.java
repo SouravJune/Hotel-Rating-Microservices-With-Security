@@ -29,19 +29,16 @@ public class RatingController {
 	}
 	
 	@PostMapping("/save")
-	//@PreAuthorize("hasAuthority('Normal_Users')")
 	public ResponseEntity<RatingResponse> saveRating(@RequestBody RatingRequest ratingRequest) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ratingService.saveRating(ratingRequest));
 	}
 	
 	@GetMapping("/all")
-	//@PreAuthorize("hasAuthority('SCOPE_internal') && hasAuthority('Admin')")
 	public ResponseEntity<List<RatingResponse>> getAllRatings() {
 		return ResponseEntity.ok().body(ratingService.getAllRatings());
 	}
 	
 	@GetMapping("/getrating-by-userid")
-	//@PreAuthorize("hasAuthority('SCOPE_internal')")
 	public ResponseEntity<List<RatingResponse>> getRatingByUserId(@RequestParam String userId) {
 		return ResponseEntity.ok().body(ratingService.getRatingByUserId(userId));
 	}
