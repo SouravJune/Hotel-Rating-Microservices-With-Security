@@ -5,36 +5,49 @@ spring:
   application:
     name: API-GATEWAY
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-95161145.okta.com/oauth2/default
+
   cloud:
     gateway:
       routes:
         - id: USER-SERVICE-MS
           uri: lb://USER-SERVICE-MS
           predicates:
-          - Path=/api/v1/user/**
+            - Path=/api/v1/user/**
+        #          filters:
+        #            - name: CircuitBreaker
+        #              args:
+        #                - name: userCircuitBreaker
+        #                - fallbackUri: forward:/api/error/fallback/contactSupport
 
         - id: HOTEL-SERVICE-MS
           uri: lb://HOTEL-SERVICE-MS
           predicates:
             - Path=/api/v1/hotel/**, /api/v1/staff/**
+        #          filters:
+        #            - name: CircuitBreaker
+        #              args:
+        #                - name: hotelCircuitBreaker
+        #                - fallbackUri: forward:/api/error/fallback/contactSupport
 
         - id: RATING-SERVICE-MS
           uri: lb://RATING-SERVICE-MS
           predicates:
             - Path=/api/v1/rating/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                - name: ratingCircuitBreaker
+#                - fallbackUri: forward:/api/error/fallback/contactSupport
 
-#OKTA configuration for API Gateway
 okta:
   oauth2:
     issuer: https://dev-95161145.okta.com/oauth2/default
     audience: api://default
-    client-id: 0oadblbh95To3qKXP5d7
-    client-secret: 63c0kPtI6TRWTNFM_rHfoIltKIC3oGeaM_2aqd7eWZQBJE6_E6okXxCaF3KV9Alu
-    scopes:
-      - openid
-      - profile
-      - email
-      - offline_access
 
 eureka:
   instance:
@@ -57,3 +70,20 @@ management:
       exposure:
         include: "*"
 
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG
+#        web: DEBUG
+#    com:
+#      ms:
+#        gateway: DEBUG
