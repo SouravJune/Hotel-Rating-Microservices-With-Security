@@ -12,4 +12,6 @@ Implemented strict access controls, allowing hotels to read all ratings but rest
 
 Enhanced security further by integrating with OKTA to create a client for each microservice. This ensured secure communication and data exchange through JWT tokens.
 
+Implemented a centralized authorization feature in our API Gateway, with the API Gateway serving as a dedicated resource server. Following successful user authentication, access to secured APIs is determined based on the user's roles. This ensures that only authorized users with the appropriate roles can access the protected resources.
+
 Ensured a streamlined user experience by incorporating features like account management, feedback submission, and secure communication between microservices.
