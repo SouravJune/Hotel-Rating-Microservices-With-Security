@@ -5,6 +5,11 @@ spring:
   application:
     name: API-GATEWAY
 
+  data:
+    redis:
+      host: localhost
+      port: 6380
+
   security:
     oauth2:
       resourceserver:
@@ -18,31 +23,16 @@ spring:
           uri: lb://USER-SERVICE-MS
           predicates:
             - Path=/api/v1/user/**
-        #          filters:
-        #            - name: CircuitBreaker
-        #              args:
-        #                - name: userCircuitBreaker
-        #                - fallbackUri: forward:/api/error/fallback/contactSupport
 
         - id: HOTEL-SERVICE-MS
           uri: lb://HOTEL-SERVICE-MS
           predicates:
             - Path=/api/v1/hotel/**, /api/v1/staff/**
-        #          filters:
-        #            - name: CircuitBreaker
-        #              args:
-        #                - name: hotelCircuitBreaker
-        #                - fallbackUri: forward:/api/error/fallback/contactSupport
 
         - id: RATING-SERVICE-MS
           uri: lb://RATING-SERVICE-MS
           predicates:
             - Path=/api/v1/rating/**
-#          filters:
-#            - name: CircuitBreaker
-#              args:
-#                - name: ratingCircuitBreaker
-#                - fallbackUri: forward:/api/error/fallback/contactSupport
 
 okta:
   oauth2:
@@ -53,8 +43,8 @@ eureka:
   instance:
     prefer-ip-address: true
   client:
-    register-with-eureka: true # Indicates whether this instance should register its information with eureka server for discovery by others
-    fetch-registry: true # Indicates whether this client should fetch eureka registry information from eureka server.
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
     should-unregister-on-shutdown: true
@@ -77,13 +67,3 @@ resilience4j.circuitbreaker:
       permittedNumberOfCallsInHalfOpenState: 2
       failureRateThreshold: 50
       waitDurationInOpenState: 10000
-
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        security: DEBUG
-#        web: DEBUG
-#    com:
-#      ms:
-#        gateway: DEBUG

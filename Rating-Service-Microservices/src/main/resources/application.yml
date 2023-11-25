@@ -23,27 +23,3 @@ okta:
   oauth2:
     issuer: https://dev-95161145.okta.com/oauth2/default
     audience: api://default
-
-#  profiles:
-#    active: dev
-
-#eureka:
-#  instance:
-#    prefer-ip-address: true
-#  client:
-#    register-with-eureka: true # Indicates whether this instance should register its information with eureka server for discovery by others
-#    fetch-registry: true # Indicates whether this client should fetch eureka registry information from eureka server.
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
-#    should-unregister-on-shutdown: true
-#
-#management:
-#  endpoint:
-#    shutdown:
-#      enabled: true
-#    health:
-#      show-details: ALWAYS
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"

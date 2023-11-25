@@ -9,19 +9,5 @@ eureka:
   instance:
     hostname: localhost
   client:
-    register-with-eureka: false # Indicates whether this instance should register its information with eureka server for discovery by others
-    fetch-registry: false # Indicates whether this client should fetch eureka registry information from eureka server.
-  
-
-# Uncomment and set the desired values if needed
-#  server:
-#     enableSelfPreservation: false
-#     expected-client-renewal-interval-seconds: 30
-#     eviction-interval-timer-in-ms: 60000
-#     renewalPercentThreshold: 0.5
-#     renewal-threshold-update-interval-ms: 90000
-#     lease-expiration-duration-in-seconds: 60
-#
-#logging:
-#  level:
-#    root: debug
+    register-with-eureka: false
+    fetch-registry: false
