@@ -18,16 +18,31 @@ spring:
           uri: lb://USER-SERVICE-MS
           predicates:
             - Path=/api/v1/user/**
+        #          filters:
+        #            - name: CircuitBreaker
+        #              args:
+        #                - name: userCircuitBreaker
+        #                - fallbackUri: forward:/api/error/fallback/contactSupport
 
         - id: HOTEL-SERVICE-MS
           uri: lb://HOTEL-SERVICE-MS
           predicates:
             - Path=/api/v1/hotel/**, /api/v1/staff/**
+        #          filters:
+        #            - name: CircuitBreaker
+        #              args:
+        #                - name: hotelCircuitBreaker
+        #                - fallbackUri: forward:/api/error/fallback/contactSupport
 
         - id: RATING-SERVICE-MS
           uri: lb://RATING-SERVICE-MS
           predicates:
             - Path=/api/v1/rating/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                - name: ratingCircuitBreaker
+#                - fallbackUri: forward:/api/error/fallback/contactSupport
 
 okta:
   oauth2:
@@ -54,6 +69,14 @@ management:
     web:
       exposure:
         include: "*"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
 
 #logging:
 #  level:
